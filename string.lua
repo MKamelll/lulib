@@ -76,7 +76,7 @@ function M.is_numeric(str)
             goto continue
         end
         local is_number = string.byte(M.at(str, i), i) >= string.byte("0") and
-        str.byte(M.at(str, i), i) <= string.byte("9")
+            str.byte(M.at(str, i), i) <= string.byte("9")
         if is_number then
             count = count + 1
         end
@@ -113,10 +113,51 @@ end
 
 ---@param str string
 ---@return string
-function M.trim(str)
-
+function M.rtrim(str)
+    local result = str
+    for i = #str, -1 do
+        if not M.is_whitespace(M.at(str, i)) then
+            result = string.sub(result, 1, i)
+            break
+        end
+    end
+    return result
 end
 
-print(M.ltrim("           fuck off"))
+---@param str string
+---@return string
+function M.trim(str)
+    local result = M.rtrim(str)
+    result = M.ltrim(str)
+    return result
+end
+
+---@param str string
+---@param old string
+---@param new string
+---@return string|nil
+function M.replace(str, old, new)
+    local start, finish = string.find(str, old)
+    if start == nil or finish == nil then return nil end
+    local pre = string.sub(str, 1, start - 1)
+    local post = string.sub(str, finish + 1)
+    return pre .. new .. post
+end
+
+---@param str string
+---@param old string
+---@param new string
+---@return string|nil
+function M.greplace(str, old, new)
+    local function aux(_str, _old, _new, _result)
+        _str = M.replace(_str, _old, _new)
+        if _str == nil then return _result end
+        _result = _str
+        return aux(_str, _old, _new, _result)
+    end
+    return aux(str, old, new, "")
+end
+
+print(M.greplace("fuck off off off", "off", "right on"))
 
 return M
