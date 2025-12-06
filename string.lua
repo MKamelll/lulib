@@ -161,16 +161,49 @@ end
 ---@param str string
 ---@return string
 function M.upper_first(str)
-    return string.upper(string.sub(str, 1, 1)) .. string.sub(str, 2)
+    local c = string.sub(str, 1, 1)
+    return string.upper(c) .. string.sub(str, 2)
 end
 
 ---@param str string
 ---@return string
 function M.lower_first(str)
-    return string.lower(string.sub(str, 1, 1)) .. string.sub(str, 2)
+    local c = string.sub(str, 1, 1)
+    return string.lower(c) .. string.sub(str, 2)
 end
 
+---@param str string
+---@return string
+function M.gupper_first(str)
+    str = M.upper_first(str)
+    local i = 1
+    while i < #str do
+        if M.at(str, i) == " " and i + 1 < #str then
+            local c = string.upper(M.at(str, i + 1))
+            str = string.sub(str, 1, i) .. c .. string.sub(str, i + 2)
+            i = i + 1
+        end
+        i = i + 1
+    end
+    return str
+end
 
-print(M.lower_first("Fuck off off off"))
+---@param str string
+---@return string
+function M.glower_first(str)
+    str = M.lower_first(str)
+    local i = 1
+    while i < #str do
+        if M.at(str, i) == " " and i + 1 < #str then
+            local c = string.lower(M.at(str, i + 1))
+            str = string.sub(str, 1, i) .. c .. string.sub(str, i + 2)
+            i = i + 1
+        end
+        i = i + 1
+    end
+    return str
+end
+
+print(M.glower_first("Fuck Off Off Off"))
 
 return M
