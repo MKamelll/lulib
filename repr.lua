@@ -6,8 +6,8 @@ function M.table_to_string(v)
     if type(v) == "table" then
         local result = "{"
         for k, val in pairs(v) do
-            local key_string = to_string(k) .. ": "
-            local value_string = to_string(val)
+            local key_string = M.to_string(k) .. ": "
+            local value_string = M.to_string(val)
             result = result .. key_string .. value_string .. ", "
         end
         result = string.sub(result, 1, #result - 2)

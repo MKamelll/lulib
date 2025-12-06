@@ -204,6 +204,51 @@ function M.glower_first(str)
     return str
 end
 
-print(M.glower_first("Fuck Off Off Off"))
+---@param str string
+---@param len number
+---@param char string
+---@return string
+function M.pad_left(str, len, char)
+    for _=1, len do
+            str = char .. str
+    end
+    return str
+end
+
+---@param str string
+---@param len number
+---@param char string
+---@return string
+function M.pad_right(str, len, char)
+    for _=1, len do
+            str = str .. char
+    end
+    return str
+end
+
+---@param str string
+---@param sub string
+---@return number
+function M.count(str, sub)
+    local function aux(_str, _sub, result)
+        if #_str < 1 then return result end
+        local b, e = string.find(_str, _sub)
+        if b == nil or e == nil then return result end
+        result = result + 1
+        return aux(string.sub(_str, e + 1), _sub, result)
+    end
+    return aux(str, sub, 0)
+end
+
+---@param str string
+---@param sep string
+---@return table
+function M.partition(str, sep)
+    local b, e = string.find(str, sep)
+    if b == nil or e == nil then
+        return { str, sep, "" }
+    end
+    return { string.sub(str, 1, b - 1), sep, string.sub(str, e + 1) }
+end
 
 return M
