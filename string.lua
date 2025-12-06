@@ -158,6 +158,19 @@ function M.greplace(str, old, new)
     return aux(str, old, new, "")
 end
 
-print(M.greplace("fuck off off off", "off", "right on"))
+---@param str string
+---@return string
+function M.upper_first(str)
+    return string.upper(string.sub(str, 1, 1)) .. string.sub(str, 2)
+end
+
+---@param str string
+---@return string
+function M.lower_first(str)
+    return string.lower(string.sub(str, 1, 1)) .. string.sub(str, 2)
+end
+
+
+print(M.lower_first("Fuck off off off"))
 
 return M
